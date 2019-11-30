@@ -1,9 +1,5 @@
 import axios from "axios";
  
 export default axios.create({
-  withCredentials: true,
-  baseURL: "",
-  headers: {
-    "Content-type": "application/x-www-form-urlencoded",    
-   }
+  baseURL: "http://213.149.113.86:8000/api",
 });
