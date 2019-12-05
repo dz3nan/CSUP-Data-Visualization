@@ -1,0 +1,2 @@
+Povucene informacije sa API-a i odradjen prikaz, 
+todo: doraditi css, prikazati sat, odraditi grafike sa drugog API-a
