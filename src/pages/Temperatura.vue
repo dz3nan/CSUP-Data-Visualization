@@ -2,18 +2,18 @@
   <div class="card">
     <div class="card-image">
       <figure class="image is-4by3">
-        <img src="../../public/img/sun.png" alt="Placeholder image" />
+        <img src="../../public/img/sun.jpg" alt="Placeholder image" />
       </figure>
     </div>
     <div class="card-content">
       <div class="media">
         <div class="media-left">
           <figure class="image is-48x48">
-            <img src="../../public/img/sun.png" alt="Placeholder image" />
+            <img src="../../public/img/sun.jpg" alt="Placeholder image" />
           </figure>
         </div>
         <div class="media-content">
-          <p class="title is-4">Temperatura {{sensor_1_val}}</p>
+          <p class="title is-4">Temperatura {{sensor_1_val}} C</p>
           <p class="subtitle is-6"></p>
         </div>
       </div>
@@ -24,6 +24,7 @@
 <script>
 import http from "../http-common";
 
+
 export default {
   name: "Temperatura",
   data() {
@@ -32,7 +33,9 @@ export default {
       sensor_2_val: "",
       sensor_3_val: "",
       sensors: [],
-      datum: ""
+      datum: "",
+      polling: null,
+      datePooling: null
     };
   },
   methods: {
@@ -68,12 +71,27 @@ export default {
     }
   },
  created() {
-  const today = new Date();
-      const date =  today.getDate() + "/" +  (today.getMonth() + 1) +  "/" + today.getFullYear();
-      this.datum = date; },
-  beforeMount() {
+       const today = new Date();
+       const date =  today.getDate() + "/" +  (today.getMonth() + 1) +  "/" + today.getFullYear();
+      this.datum = date; 
+      
+      },
+  mounted: function() {
     this.searchSensors();
-  }
+     this.polling= setInterval(() => {
+    this.searchSensors();
+    }, 900000);
+
+      this.datePooling =setInterval(() => {
+       const today = new Date();
+       const date =  today.getDate() + "/" +  (today.getMonth() + 1) +  "/" + today.getFullYear();
+      this.datum = date; 
+    }, 86400000);
+  },
+  beforeDestroy () {
+  clearInterval(this.polling)
+  clearInterval(this.datePooling)
+}
 };
 </script>
 

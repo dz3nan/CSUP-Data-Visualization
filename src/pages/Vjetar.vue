@@ -14,7 +14,7 @@
         </figure>
       </div>
       <div class="media-content">
-        <p class="title is-4">Brzina vjetra {{sensor_1_val}}</p>
+        <p class="title is-4">Brzina vjetra {{sensor_1_val}} m/s</p>
         <p class="subtitle is-6"></p>
       </div>
     </div>
@@ -38,6 +38,8 @@ export default {
       sensor_3_val: "",
       sensors: [],
       datum: "",
+       polling: null,
+      datePooling: null
         }
       },
       methods: {
@@ -75,9 +77,22 @@ export default {
   const today = new Date();
       const date =  today.getDate() + "/" +  (today.getMonth() + 1) +  "/" + today.getFullYear();
       this.datum = date; },
-  beforeMount() {
+ mounted: function() {
     this.searchSensors();
-  }
+     this.polling= setInterval(() => {
+    this.searchSensors();
+    }, 900000);
+
+      this.datePooling =setInterval(() => {
+       const today = new Date();
+       const date =  today.getDate() + "/" +  (today.getMonth() + 1) +  "/" + today.getFullYear();
+      this.datum = date; 
+    }, 86400000);
+  },
+  beforeDestroy () {
+  clearInterval(this.polling)
+  clearInterval(this.datePooling)
+},
 }
 </script>
 

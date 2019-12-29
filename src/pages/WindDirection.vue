@@ -3,18 +3,18 @@
 <div class="card" >
   <div class="card-image">
     <figure class="image is-4by3">
-      <img src="../../public/img/winddirection.png" alt="Placeholder image">
+      <img src="../../public/img/winddirection.jpg" alt="Placeholder image">
     </figure>
   </div>
   <div class="card-content">
     <div class="media">
       <div class="media-left">
         <figure class="image is-48x48">
-          <img src="../../public/img/winddirection.png" alt="Placeholder image">
+          <img src="../../public/img/winddirection.jpg" alt="Placeholder image">
         </figure>
       </div>
       <div class="media-content">
-        <p class="title is-4">Smjer vjetra {{sensor_3_val}}</p>
+        <p class="title is-4">Smjer vjetra {{smjer}} - {{sensor_3_val}}</p>
         <p class="subtitle is-6"></p>
       </div>
     </div>
@@ -35,8 +35,11 @@ export default {
   sensor_1_val: "",
       sensor_2_val: "",
       sensor_3_val: "",
+      smjer: "",
       sensors: [],
       datum: "",
+       polling: null,
+      datePooling: null
         }
       },
       methods: {
@@ -58,6 +61,20 @@ export default {
             this.sensor_2_val = Number(Number(obj.sensor_2_val).toFixed(1));
             this.sensor_3_val = Number(Number(obj.sensor_3_val).toFixed(1));
           }
+const br = Number(this.sensor_3_val);
+if(br>0 && br<90) {
+  this.smjer="Sjever";
+}
+else if(br>=90 && br<180) {
+  this.smjer="Istok";
+}
+else if(br>=180 && br< 270){
+  this.smjer="Jug";
+}
+else if(br>=270 && br<360) {
+  this.smjer="Zapad";
+}
+
         })
         .catch(e => {
           console.log(e);
@@ -74,9 +91,22 @@ export default {
   const today = new Date();
       const date =  today.getDate() + "/" +  (today.getMonth() + 1) +  "/" + today.getFullYear();
       this.datum = date; },
-  beforeMount() {
+ mounted: function() {
     this.searchSensors();
-  }
+     this.polling= setInterval(() => {
+    this.searchSensors();
+    }, 900000);
+
+      this.datePooling =setInterval(() => {
+       const today = new Date();
+       const date =  today.getDate() + "/" +  (today.getMonth() + 1) +  "/" + today.getFullYear();
+      this.datum = date; 
+    }, 86400000);
+  },
+  beforeDestroy () {
+  clearInterval(this.polling)
+  clearInterval(this.datePooling)
+},
 }
 </script>
 

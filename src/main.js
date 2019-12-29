@@ -16,7 +16,7 @@ import 'buefy/dist/buefy.css';
  import Vjetar from './pages/Vjetar.vue'
  import Padavina from './pages/Padavina.vue'
  import WindDirection from './pages/WindDirection.vue'
-
+import Dashboard from './pages/Dashboard.vue'
 
 Vue.use(Buefy);
 
@@ -27,6 +27,7 @@ Vue.component('vlaznost',Vlaznost)
 Vue.component('vjetar',Vjetar)
 Vue.component('padavina',Padavina)
 Vue.component('smjerVjetra',WindDirection)
+Vue.component('dashboard',Dashboard)
 
 
 Vue.use(BootstrapVue)
@@ -47,31 +48,4 @@ new Vue({
   render: h => h(App)
 }).$mount('#app');
 
-let loader = null;
-function hideLoader(){
-   // destroy previous
-     if(loader) {
-         loader.hide();
-         loader = null;
-    }
-}
 
-function showLoader(){
-     hideLoader();
-     loader = Vue.$loading.show()
-}
-
-router.beforeEach((to, from, next)=>{
-
-  if (to.name) {
-      showLoader();
-   }
-   next()
-})
-router.afterEach((to, from)=>{
-
-setTimeout(() => {
-   loader.hide()
-    },800)
-  // store.commit('setLoading', false)
-})

@@ -30,18 +30,26 @@
       </div>
 
       <div class="row">
-        <div class="col-sm">
-          <apexchart width="600" type="bar" :options="options" :series="series"></apexchart>
+        <div class="col-sm-4">
+          <dashboard/>
         </div>
-          <div class="col-sm">
-          <apexchart width="600" type="line" :options="options" :series="series"></apexchart>
+           <div class="col-sm-4">
+        </div>
+          <div  class="col-sm-4">
+                      <clock size="300px" color="#FFFFFF" bg="#4AB7BD"></clock>
         </div>
       </div>
+
+      <div class="row" style="height: 200px">
+      </div>
+      
     </div>
   </div>
 </template>
 <script>
 import http from "../http-common";
+ import Clock from 'vue-clock2';
+ 
 
 export default {
   name: "index",
@@ -80,7 +88,7 @@ export default {
     }
   },
   bodyClass: "index-page",
-  components: {}
+     components: { Clock }
 };
 </script>
 <style >
